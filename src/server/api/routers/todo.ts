@@ -18,7 +18,17 @@ export const todoRouter = createTRPCRouter({
         data: { title: input.title },
       })
     }),
-  update: publicProcedure
+  updateTitle: publicProcedure
+    .input(z.object({ id: z.string(), title: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.todo.update({
+        where: { id: input.id },
+        data: {
+          title: input.title,
+        },
+      })
+    }),
+  updateIsCompleted: publicProcedure
     .input(z.object({ id: z.string(), isCompleted: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.todo.update({
