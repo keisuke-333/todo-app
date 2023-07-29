@@ -4,6 +4,10 @@ import { api } from "@/utils/api"
 
 const HomePage = () => {
   const [title, setTitle] = useState("")
+  const [isEditing, setIsEditing] = useState<string | null>(null)
+  const [editText, setEditText] = useState("")
+  const [filter, setFilter] = useState("all")
+  const [search, setSearch] = useState("")
 
   const { isLoading, error, data, refetch } = api.todo.fetch.useQuery()
 
@@ -15,7 +19,15 @@ const HomePage = () => {
     },
   })
 
-  const updateMutation = api.todo.update.useMutation({
+  const updateTitleMutation = api.todo.updateTitle.useMutation({
+    onSuccess: () => {
+      refetch().catch((error) => {
+        console.error("An error occurred during refetch: ", error)
+      })
+    },
+  })
+
+  const updateIsCompletedMutation = api.todo.updateIsCompleted.useMutation({
     onSuccess: () => {
       refetch().catch((error) => {
         console.error("An error occurred during refetch: ", error)
@@ -46,10 +58,34 @@ const HomePage = () => {
       })
   }
 
-  const handleCheckboxChange = (id: string, isCompleted: boolean) => {
-    updateMutation
+  const handleCheckboxClick = (
+    event: React.MouseEvent<HTMLInputElement>,
+    id: string,
+    isCompleted: boolean,
+  ) => {
+    event.stopPropagation()
+    updateIsCompletedMutation
       .mutateAsync({ id, isCompleted: !isCompleted })
       .catch((error) => console.error("An error occurred during mutation: ", error))
+  }
+
+  const handleStartEdit = (id: string, title: string) => {
+    setIsEditing(id)
+    setEditText(title)
+  }
+
+  const handleEditChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEditText(event.target.value)
+  }
+
+  const handleEndEdit = (id: string) => {
+    if (editText.trim() !== "") {
+      updateTitleMutation.mutateAsync({ id, title: editText }).catch((error) => {
+        console.error("An error occurred during mutation: ", error)
+      })
+    }
+    setIsEditing(null)
+    setEditText("")
   }
 
   const handleDeleteClick = (id: string) => {
@@ -58,6 +94,25 @@ const HomePage = () => {
         console.error("An error occurred during deletion: ", error)
       })
     }
+  }
+
+  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilter(event.target.value)
+  }
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value)
+  }
+
+  let filteredData = data
+  if (filter === "active") {
+    filteredData = data?.filter((todo) => !todo.isCompleted) ?? []
+  } else if (filter === "done") {
+    filteredData = data?.filter((todo) => todo.isCompleted) ?? []
+  }
+
+  if (search !== "") {
+    filteredData = filteredData?.filter((todo) => todo.title.includes(search)) ?? []
   }
 
   return (
@@ -77,11 +132,13 @@ const HomePage = () => {
           type="text"
           className="mr-1 grow rounded-full border px-4 py-2 shadow hover:border-gray-400"
           placeholder="Search"
+          onChange={handleSearchChange}
         />
 
         <select
           className="w-[75px] rounded border px-1 py-2 shadow hover:border-gray-400"
           defaultValue="all"
+          onChange={handleFilterChange}
         >
           <option value="all">All</option>
           <option value="active">Active</option>
@@ -89,19 +146,31 @@ const HomePage = () => {
         </select>
       </div>
 
-      {data?.map((todo) => (
+      {filteredData?.map((todo) => (
         <div
           key={todo.id}
           className="mb-2 flex w-[300px] cursor-pointer items-center border px-4 py-2 shadow hover:bg-slate-100"
+          onClick={() => handleStartEdit(todo.id, todo.title)}
         >
           <input
             type="checkbox"
             id="checkbox"
             className="h-5 w-5 cursor-pointer"
             checked={todo.isCompleted}
-            onChange={() => handleCheckboxChange(todo.id, todo.isCompleted)}
+            onClick={(e) => handleCheckboxClick(e, todo.id, todo.isCompleted)}
           />
-          <p className="mx-4 grow">{todo.title}</p>
+          {isEditing === todo.id ? (
+            <input
+              type="text"
+              className="mx-4 w-[151px] p-1"
+              value={editText}
+              onChange={handleEditChange}
+              onBlur={() => handleEndEdit(todo.id)}
+              autoFocus={true}
+            />
+          ) : (
+            <p className={`mx-4 grow ${todo.isCompleted ? "text-gray-300" : ""}`}>{todo.title}</p>
+          )}
           <button
             className="rounded bg-red-500 p-2 text-white hover:bg-red-700"
             onClick={() => handleDeleteClick(todo.id)}
