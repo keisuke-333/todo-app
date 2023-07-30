@@ -1,3 +1,4 @@
+import type { ChangeEvent, FormEvent, MouseEvent } from "react"
 import { useState } from "react"
 
 import { api } from "@/utils/api"
@@ -43,7 +44,7 @@ const HomePage = () => {
     },
   })
 
-  const handleCreateTodo = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleCreateTodo = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (title.trim() === "") {
       return
@@ -59,7 +60,7 @@ const HomePage = () => {
   }
 
   const handleCheckboxClick = (
-    event: React.MouseEvent<HTMLInputElement>,
+    event: MouseEvent<HTMLInputElement>,
     id: string,
     isCompleted: boolean,
   ) => {
@@ -74,7 +75,7 @@ const HomePage = () => {
     setEditText(title)
   }
 
-  const handleEditChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEditChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEditText(event.target.value)
   }
 
@@ -96,11 +97,11 @@ const HomePage = () => {
     }
   }
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setFilter(event.target.value)
   }
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value)
   }
 
