@@ -4,13 +4,7 @@ const config = {
   parserOptions: {
     project: true,
   },
-  plugins: [
-    "@typescript-eslint",
-    "simple-import-sort",
-    "import",
-    "unused-imports",
-    "tailwindcss",
-  ],
+  plugins: ["@typescript-eslint", "simple-import-sort", "import", "unused-imports", "tailwindcss"],
   extends: [
     "next/core-web-vitals",
     "prettier",
@@ -33,6 +27,7 @@ const config = {
       },
     ],
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/consistent-type-definitions": "off",
   },
   settings: {
     tailwindcss: {
@@ -40,6 +35,6 @@ const config = {
       whitelist: [],
     },
   },
-};
+}
 
-module.exports = config;
+module.exports = config
