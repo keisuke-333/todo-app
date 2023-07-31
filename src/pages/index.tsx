@@ -1,4 +1,4 @@
-import type { ChangeEvent, FormEvent, MouseEvent } from "react"
+import type { ChangeEvent, FormEvent, KeyboardEvent, MouseEvent } from "react"
 import { useState } from "react"
 
 import { useMutateTodo } from "@/hooks/useMutateTodo"
@@ -60,6 +60,15 @@ const HomePage = () => {
     }
     setIsEditing(null)
     setEditText("")
+  }
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>, id: string) => {
+    if (event.key === "Enter") {
+      handleEndEdit(id)
+    } else if (event.key === "Escape") {
+      setIsEditing(null)
+      setEditText("")
+    }
   }
 
   const handleDeleteClick = (id: string) => {
@@ -155,6 +164,7 @@ const HomePage = () => {
                   value={editText}
                   onChange={handleEditChange}
                   onBlur={() => handleEndEdit(todo.id)}
+                  onKeyDown={(e) => handleKeyDown(e, todo.id)}
                   autoFocus={true}
                 />
               ) : (
