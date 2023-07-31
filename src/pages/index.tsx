@@ -1,6 +1,7 @@
 import type { ChangeEvent, FormEvent, MouseEvent } from "react"
 import { useState } from "react"
 
+import { useMutateTodo } from "@/hooks/useMutateTodo"
 import { api } from "@/utils/api"
 
 const HomePage = () => {
@@ -12,46 +13,16 @@ const HomePage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 5
 
-  const { isLoading, error, data, refetch } = api.todo.fetch.useQuery()
-
-  const createMutation = api.todo.create.useMutation({
-    onSuccess: () => {
-      refetch().catch((error) => {
-        console.error("An error occurred during refetch: ", error)
-      })
-    },
-  })
-
-  const updateTitleMutation = api.todo.updateTitle.useMutation({
-    onSuccess: () => {
-      refetch().catch((error) => {
-        console.error("An error occurred during refetch: ", error)
-      })
-    },
-  })
-
-  const updateIsCompletedMutation = api.todo.updateIsCompleted.useMutation({
-    onSuccess: () => {
-      refetch().catch((error) => {
-        console.error("An error occurred during refetch: ", error)
-      })
-    },
-  })
-
-  const deleteMutation = api.todo.delete.useMutation({
-    onSuccess: () => {
-      refetch().catch((error) => {
-        console.error("An error occurred during refetch: ", error)
-      })
-    },
-  })
+  const { data } = api.todo.fetch.useQuery()
+  const { createTodoMutation, updateTitleMutation, updateIsCompletedMutation, deleteTodoMutation } =
+    useMutateTodo()
 
   const handleCreateTodo = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (title.trim() === "") {
       return
     }
-    createMutation
+    createTodoMutation
       .mutateAsync({ title })
       .then(() => {
         setTitle("")
@@ -93,7 +64,7 @@ const HomePage = () => {
 
   const handleDeleteClick = (id: string) => {
     if (confirm("削除してもよろしいでしょうか？")) {
-      deleteMutation.mutateAsync({ id }).catch((error) => {
+      deleteTodoMutation.mutateAsync({ id }).catch((error) => {
         console.error("An error occurred during deletion: ", error)
       })
       if (currentItems?.length === 1) {
