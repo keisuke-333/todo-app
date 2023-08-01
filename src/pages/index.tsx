@@ -14,6 +14,7 @@ const HomePage = () => {
   const [filter, setFilter] = useState("all")
   const [search, setSearch] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
+  const [loadingFlags, setLoadingFlags] = useState<Record<string, boolean>>({})
   const itemsPerPage = 5
 
   const { data, isLoading } = api.todo.fetch.useQuery()
@@ -25,9 +26,15 @@ const HomePage = () => {
     isCompleted: boolean,
   ) => {
     event.stopPropagation()
+    setLoadingFlags((flags) => ({ ...flags, [id]: true }))
     updateIsCompletedMutation
       .mutateAsync({ id, isCompleted: !isCompleted })
-      .catch((error) => console.error("An error occurred during mutation: ", error))
+      .catch((error) => {
+        console.error("An error occurred during mutation: ", error)
+      })
+      .finally(() => {
+        setLoadingFlags((flags) => ({ ...flags, [id]: false }))
+      })
   }
 
   const handleStartEdit = (id: string, title: string) => {
@@ -118,6 +125,7 @@ const HomePage = () => {
         handleKeyDown={handleKeyDown}
         handleDeleteClick={handleDeleteClick}
         isLoading={isLoading}
+        loadingFlags={loadingFlags}
       />
       <Pagination
         currentPage={currentPage}

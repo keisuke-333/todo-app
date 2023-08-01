@@ -17,6 +17,7 @@ type Props = {
   handleEndEdit: (id: string) => void
   handleKeyDown: (event: KeyboardEvent<HTMLInputElement>, id: string) => void
   handleDeleteClick: (id: string) => void
+  loadingFlags: Record<string, boolean>
 }
 
 export const TodoList = ({
@@ -29,6 +30,7 @@ export const TodoList = ({
   handleEndEdit,
   handleKeyDown,
   handleDeleteClick,
+  loadingFlags,
 }: Props) => {
   return (
     <>
@@ -44,6 +46,7 @@ export const TodoList = ({
           handleEndEdit={handleEndEdit}
           handleKeyDown={handleKeyDown}
           handleDeleteClick={handleDeleteClick}
+          isLoading={loadingFlags[todo.id] ?? false}
         />
       ))}
     </>

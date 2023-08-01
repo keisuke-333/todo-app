@@ -19,6 +19,7 @@ type Props = {
   handleKeyDown: (event: KeyboardEvent<HTMLInputElement>, id: string) => void
   handleDeleteClick: (id: string) => void
   isLoading: boolean
+  loadingFlags: Record<string, boolean>
 }
 
 export const TodoListTemplate = ({
@@ -32,6 +33,7 @@ export const TodoListTemplate = ({
   handleKeyDown,
   handleDeleteClick,
   isLoading,
+  loadingFlags,
 }: Props) => {
   return (
     <div className="flex h-[360px] w-[300px] flex-col items-center gap-2">
@@ -50,6 +52,7 @@ export const TodoListTemplate = ({
           handleEndEdit={handleEndEdit}
           handleKeyDown={handleKeyDown}
           handleDeleteClick={handleDeleteClick}
+          loadingFlags={loadingFlags}
         />
       ) : (
         <p className="text-center text-lg text-gray-500">No todos found.</p>
