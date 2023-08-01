@@ -47,10 +47,16 @@ const HomePage = () => {
   }
 
   const handleEndEdit = (id: string) => {
+    setLoadingFlags((flags) => ({ ...flags, [id]: true }))
     if (editText.trim() !== "") {
-      updateTitleMutation.mutateAsync({ id, title: editText }).catch((error) => {
-        console.error("An error occurred during mutation: ", error)
-      })
+      updateTitleMutation
+        .mutateAsync({ id, title: editText })
+        .catch((error) => {
+          console.error("An error occurred during mutation: ", error)
+        })
+        .finally(() => {
+          setLoadingFlags((flags) => ({ ...flags, [id]: false }))
+        })
     }
     setEditingTodoId(null)
     setEditText("")
