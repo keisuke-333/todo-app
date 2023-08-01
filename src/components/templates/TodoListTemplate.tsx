@@ -1,6 +1,7 @@
 import type { Todo } from "@prisma/client"
 import type { ChangeEvent, KeyboardEvent } from "react"
 
+import { Spinner } from "../atoms/Spinner"
 import { TodoList } from "../organisms/TodoList"
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
   handleEndEdit: (id: string) => void
   handleKeyDown: (event: KeyboardEvent<HTMLInputElement>, id: string) => void
   handleDeleteClick: (id: string) => void
+  isLoading: boolean
 }
 
 export const TodoListTemplate = ({
@@ -29,10 +31,15 @@ export const TodoListTemplate = ({
   handleEndEdit,
   handleKeyDown,
   handleDeleteClick,
+  isLoading,
 }: Props) => {
   return (
-    <div className="flex h-[360px] w-[300px] flex-col gap-2">
-      {currentItems?.length > 0 ? (
+    <div className="flex h-[360px] w-[300px] flex-col items-center gap-2">
+      {isLoading ? (
+        <div className="flex h-full items-center">
+          <Spinner />
+        </div>
+      ) : currentItems?.length > 0 ? (
         <TodoList
           todos={currentItems}
           editingTodoId={editingTodoId}
