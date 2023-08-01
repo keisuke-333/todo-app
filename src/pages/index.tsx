@@ -16,7 +16,7 @@ const HomePage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 5
 
-  const { data } = api.todo.fetch.useQuery()
+  const { data, isLoading } = api.todo.fetch.useQuery()
   const { updateTitleMutation, updateIsCompletedMutation, deleteTodoMutation } = useMutateTodo()
 
   const handleCheckboxClick = (
@@ -117,6 +117,7 @@ const HomePage = () => {
         handleEndEdit={handleEndEdit}
         handleKeyDown={handleKeyDown}
         handleDeleteClick={handleDeleteClick}
+        isLoading={isLoading}
       />
       <Pagination
         currentPage={currentPage}
