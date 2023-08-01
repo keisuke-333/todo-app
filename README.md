@@ -24,6 +24,19 @@
 
 Next.js と TypeScript を使用してフロントエンドを実装し、Prisma と Supabase を使用してデータの永続化を行っています。API エンドポイントは tRPC を使用して作成しています。各 Todo 項目は、独立したコンポーネントとして実装され、状態管理は React の useState のみで実装されています。
 
+データベースの構造については以下の図を参照してください。
+
+```mermaid
+erDiagram
+  todos {
+    id string(cuid) PK
+    title string
+    is_completed boolean
+    created_at timestamp
+    updated_at timestamp
+  }
+```
+
 ## 考慮したポイント
 
 ### ページネーションの実装
