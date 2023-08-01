@@ -1,6 +1,7 @@
 import type { Todo } from "@prisma/client"
 import type { ChangeEvent, KeyboardEvent } from "react"
 
+import { Spinner } from "../atoms/Spinner"
 import { TodoCheckbox } from "../atoms/TodoCheckbox"
 import { TodoDeleteButton } from "../atoms/TodoDeleteButton"
 import { TodoEditInput } from "../atoms/TodoEditInput"
@@ -19,6 +20,7 @@ type Props = {
   handleEndEdit: (id: string) => void
   handleKeyDown: (event: KeyboardEvent<HTMLInputElement>, id: string) => void
   handleDeleteClick: (id: string) => void
+  isLoading: boolean
 }
 
 export const TodoItem = ({
@@ -31,6 +33,7 @@ export const TodoItem = ({
   handleEndEdit,
   handleKeyDown,
   handleDeleteClick,
+  isLoading,
 }: Props) => {
   const handleTodoClick = () => {
     handleStartEdit(todo.id, todo.title)
@@ -42,10 +45,14 @@ export const TodoItem = ({
       className="flex w-full cursor-pointer items-center border px-4 py-2 shadow hover:bg-slate-100"
       onClick={handleTodoClick}
     >
-      <TodoCheckbox
-        checked={todo.isCompleted}
-        onChange={(e) => handleCheckboxClick(e, todo.id, todo.isCompleted)}
-      />
+      {isLoading ? (
+        <Spinner margin="my-2" height="h-5" width="w-5" />
+      ) : (
+        <TodoCheckbox
+          checked={todo.isCompleted}
+          onChange={(e) => handleCheckboxClick(e, todo.id, todo.isCompleted)}
+        />
+      )}
       {editingTodoId === todo.id ? (
         <TodoEditInput
           value={editText}
