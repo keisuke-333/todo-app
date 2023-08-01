@@ -39,7 +39,7 @@ export const TodoItem = ({
   return (
     <div
       key={todo.id}
-      className="flex cursor-pointer items-center border px-4 py-2 shadow hover:bg-slate-100"
+      className="flex w-full cursor-pointer items-center border px-4 py-2 shadow hover:bg-slate-100"
       onClick={handleTodoClick}
     >
       <TodoCheckbox
