@@ -6,7 +6,7 @@ type Props = {
 
 export const PaginationButton = ({ isDisabled, onClick, children }: Props) => (
   <button
-    className={`rounded px-2 py-1 text-sm font-bold text-gray-800 ${
+    className={`rounded p-1 text-sm font-bold text-gray-800 ${
       isDisabled ? "cursor-not-allowed bg-gray-300" : "bg-gray-300 hover:bg-gray-400"
     }`}
     onClick={onClick}

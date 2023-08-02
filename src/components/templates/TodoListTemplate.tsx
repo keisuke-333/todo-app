@@ -36,7 +36,7 @@ export const TodoListTemplate = ({
   loadingFlags,
 }: Props) => {
   return (
-    <div className="flex h-[360px] w-[300px] flex-col items-center gap-2">
+    <div className="flex h-[300px] w-[300px] flex-col items-center gap-2">
       {isLoading ? (
         <div className="flex h-full items-center">
           <Spinner />

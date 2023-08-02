@@ -11,7 +11,7 @@ export const TodoEditInput = ({ value, onChange, onBlur, onKeyDown }: Props) => 
   return (
     <input
       type="text"
-      className="mx-4 w-[151px] p-1"
+      className="mx-4 w-[182px] p-1"
       value={value}
       onChange={onChange}
       onBlur={onBlur}
