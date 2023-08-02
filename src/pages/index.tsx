@@ -46,20 +46,23 @@ const HomePage = () => {
     setEditText(event.target.value)
   }
 
+  const isValidLength = (title: string) => {
+    const maxLength = 9
+    return title.length <= maxLength
+  }
+
   const handleEndEdit = (id: string) => {
     setLoadingFlags((flags) => ({ ...flags, [id]: true }))
-    if (editText.trim() !== "") {
-      updateTitleMutation
-        .mutateAsync({ id, title: editText })
-        .catch((error) => {
-          console.error("An error occurred during mutation: ", error)
-        })
-        .finally(() => {
-          setLoadingFlags((flags) => ({ ...flags, [id]: false }))
-        })
+    if (editText.trim() !== "" && isValidLength(editText)) {
+      updateTitleMutation.mutateAsync({ id, title: editText }).catch((error) => {
+        console.error("An error occurred during mutation: ", error)
+      })
+    } else if (!isValidLength(editText)) {
+      alert("10文字以下で入力してください。")
     }
     setEditingTodoId(null)
     setEditText("")
+    setLoadingFlags((flags) => ({ ...flags, [id]: false }))
   }
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>, id: string) => {

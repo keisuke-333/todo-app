@@ -10,9 +10,18 @@ export const TodoAddInput = () => {
   const [isLoading, setIsLoading] = useState(false)
   const { createTodoMutation } = useMutateTodo()
 
+  const isValidLength = (title: string) => {
+    const maxLength = 9
+    return title.length <= maxLength
+  }
+
   const handleCreateTodo = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (title.trim() === "") {
+      return
+    }
+    if (!isValidLength(title)) {
+      alert("10文字以下で入力してください。")
       return
     }
     setIsLoading(true)
