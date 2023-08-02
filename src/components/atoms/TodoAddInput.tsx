@@ -11,7 +11,7 @@ export const TodoAddInput = () => {
   const { createTodoMutation } = useMutateTodo()
 
   const isValidLength = (title: string) => {
-    const maxLength = 9
+    const maxLength = 10
     return title.length <= maxLength
   }
 
@@ -21,7 +21,7 @@ export const TodoAddInput = () => {
       return
     }
     if (!isValidLength(title)) {
-      alert("10文字未満(最大9文字)で入力してください。")
+      alert("10文字以下で入力してください。")
       return
     }
     setIsLoading(true)
