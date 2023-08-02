@@ -11,6 +11,7 @@ import { api } from "@/utils/api"
 const HomePage = () => {
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null)
   const [editText, setEditText] = useState("")
+  const [originalText, setOriginalText] = useState("")
   const [filter, setFilter] = useState("all")
   const [search, setSearch] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
@@ -40,6 +41,7 @@ const HomePage = () => {
   const handleStartEdit = (id: string, title: string) => {
     setEditingTodoId(id)
     setEditText(title)
+    setOriginalText(title)
   }
 
   const handleEditChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +55,7 @@ const HomePage = () => {
 
   const handleEndEdit = (id: string) => {
     setLoadingFlags((flags) => ({ ...flags, [id]: true }))
-    if (editText.trim() !== "" && isValidLength(editText)) {
+    if (editText.trim() !== "" && isValidLength(editText) && editText !== originalText) {
       updateTitleMutation.mutateAsync({ id, title: editText }).catch((error) => {
         console.error("An error occurred during mutation: ", error)
       })
@@ -62,6 +64,7 @@ const HomePage = () => {
     }
     setEditingTodoId(null)
     setEditText("")
+    setOriginalText("")
     setLoadingFlags((flags) => ({ ...flags, [id]: false }))
   }
 
