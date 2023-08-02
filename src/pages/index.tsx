@@ -58,7 +58,7 @@ const HomePage = () => {
         console.error("An error occurred during mutation: ", error)
       })
     } else if (!isValidLength(editText)) {
-      alert("9文字以内で入力してください。")
+      alert("10文字以下で入力してください。")
     }
     setEditingTodoId(null)
     setEditText("")

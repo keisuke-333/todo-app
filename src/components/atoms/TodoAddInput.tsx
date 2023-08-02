@@ -21,7 +21,7 @@ export const TodoAddInput = () => {
       return
     }
     if (!isValidLength(title)) {
-      alert("9文字以内で入力してください。")
+      alert("10文字以下で入力してください。")
       return
     }
     setIsLoading(true)
