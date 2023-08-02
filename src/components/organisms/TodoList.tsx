@@ -1,5 +1,5 @@
 import type { Todo } from "@prisma/client"
-import type { ChangeEvent, KeyboardEvent } from "react"
+import type { ChangeEvent, KeyboardEvent, MouseEvent } from "react"
 
 import { TodoItem } from "../molecules/TodoItem"
 
@@ -16,7 +16,7 @@ type Props = {
   handleEditChange: (event: ChangeEvent<HTMLInputElement>) => void
   handleEndEdit: (id: string) => void
   handleKeyDown: (event: KeyboardEvent<HTMLInputElement>, id: string) => void
-  handleDeleteClick: (id: string) => void
+  handleDeleteClick: (event: MouseEvent<HTMLButtonElement>, id: string) => void
   loadingFlags: Record<string, boolean>
 }
 

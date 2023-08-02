@@ -1,5 +1,5 @@
 import type { Todo } from "@prisma/client"
-import type { ChangeEvent, KeyboardEvent } from "react"
+import type { ChangeEvent, KeyboardEvent, MouseEvent } from "react"
 
 import { Spinner } from "../atoms/Spinner"
 import { TodoCheckbox } from "../atoms/TodoCheckbox"
@@ -19,7 +19,7 @@ type Props = {
   handleEditChange: (event: ChangeEvent<HTMLInputElement>) => void
   handleEndEdit: (id: string) => void
   handleKeyDown: (event: KeyboardEvent<HTMLInputElement>, id: string) => void
-  handleDeleteClick: (id: string) => void
+  handleDeleteClick: (event: MouseEvent<HTMLButtonElement>, id: string) => void
   isLoading: boolean
 }
 
@@ -65,7 +65,7 @@ export const TodoItem = ({
           ) : (
             <p className={`mx-4 grow ${todo.isCompleted ? "text-gray-300" : ""}`}>{todo.title}</p>
           )}
-          <TodoDeleteButton onClick={() => handleDeleteClick(todo.id)} />
+          <TodoDeleteButton onClick={(e) => handleDeleteClick(e, todo.id)} />
         </>
       )}
     </div>

@@ -1,4 +1,4 @@
-import type { ChangeEvent, KeyboardEvent } from "react"
+import type { ChangeEvent, KeyboardEvent, MouseEvent } from "react"
 import { useState } from "react"
 
 import { TodoAddInput } from "@/components/atoms/TodoAddInput"
@@ -74,7 +74,8 @@ const HomePage = () => {
     }
   }
 
-  const handleDeleteClick = (id: string) => {
+  const handleDeleteClick = (event: MouseEvent<HTMLButtonElement>, id: string) => {
+    event.stopPropagation()
     if (confirm("削除してもよろしいでしょうか？")) {
       deleteTodoMutation.mutateAsync({ id }).catch((error) => {
         console.error("An error occurred during deletion: ", error)
