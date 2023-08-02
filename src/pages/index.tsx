@@ -91,10 +91,12 @@ const HomePage = () => {
 
   const handleFilterChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setFilter(event.target.value)
+    setCurrentPage(1)
   }
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value)
+    setCurrentPage(1)
   }
 
   let filteredData = data
