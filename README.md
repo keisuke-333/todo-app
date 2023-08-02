@@ -63,7 +63,10 @@ DATABASE_URL="postgresql://postgres:password@localhost:5434/db"
 
 4. `prisma/schema.prisma`内の`directUrl = env("DIRECT_URL")`はコメントアウトしておきます。(こちらは Supabase と接続する際に必要なものなので`docker-compose.yml`の PostgreSQL を使用する場合は不要です)
 5. `docker compose up` で PostgreSQL を起動します。
+6. `npx prisma db push` で `posts`テーブルを作成します。
 
 ## ローカル開発サーバーの起動
 
-開発サーバーを起動するには、まず上記で説明済みの `docker-compose.yml` に定義されている PostgreSQL を起動します。そのためには`docker compose up`を実行します。その後、`yarn dev`を実行します。デフォルトでは`localhost:3000`でアプリケーションにアクセスできます。また`npx prisma studio`で Prisma studio というデータベースを操作するための GUI(`localhost:5555`)を起動することができます。
+開発サーバーを起動する前に、まず上記で説明済みの `docker-compose.yml` に定義されている PostgreSQL を起動します。そのためには`docker compose up`を実行します。その後、`npx prisma db push` で `posts`テーブルを作成します。  
+上記の環境構築が完了後に、`yarn dev`でローカルサーバーの起動を実行します。デフォルトでは`localhost:3000`でアプリケーションにアクセスできます。  
+また`npx prisma studio`で Prisma studio というデータベースを操作するための GUI(`localhost:5555`)を起動することができます。
