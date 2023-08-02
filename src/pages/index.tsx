@@ -47,7 +47,7 @@ const HomePage = () => {
   }
 
   const isValidLength = (title: string) => {
-    const maxLength = 9
+    const maxLength = 10
     return title.length <= maxLength
   }
 
@@ -58,7 +58,7 @@ const HomePage = () => {
         console.error("An error occurred during mutation: ", error)
       })
     } else if (!isValidLength(editText)) {
-      alert("10文字未満(最大9文字)で入力してください。")
+      alert("10文字以下で入力してください。")
     }
     setEditingTodoId(null)
     setEditText("")
