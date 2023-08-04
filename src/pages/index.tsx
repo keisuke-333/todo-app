@@ -1,6 +1,7 @@
 import type { ChangeEvent, FormEvent, KeyboardEvent, MouseEvent } from "react"
 import { useState } from "react"
 
+import { Spinner } from "@/components/atoms/Spinner"
 import { TodoAddInput } from "@/components/atoms/TodoAddInput"
 import { Pagination } from "@/components/organisms/Pagination"
 import { SearchAndFilterBar } from "@/components/organisms/SearchAndFilterBar"
@@ -146,12 +147,11 @@ const HomePage = () => {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-      <TodoAddInput
-        title={title}
-        setTitle={setTitle}
-        handleCreateTodo={handleCreateTodo}
-        isPosting={isPosting}
-      />
+      {isPosting ? (
+        <Spinner height="h-4" width="w-4" />
+      ) : (
+        <TodoAddInput title={title} setTitle={setTitle} handleCreateTodo={handleCreateTodo} />
+      )}
       <SearchAndFilterBar
         search={search}
         filter={filter}

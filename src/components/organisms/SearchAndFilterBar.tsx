@@ -15,11 +15,9 @@ export const SearchAndFilterBar = ({
   filter,
   handleSearchChange,
   handleFilterChange,
-}: Props) => {
-  return (
-    <div className="mb-4 flex w-[300px] items-center">
-      <TodoSearchInput value={search} onChange={handleSearchChange} />
-      <FilterSelect value={filter} onChange={handleFilterChange} />
-    </div>
-  )
-}
+}: Props) => (
+  <div className="mb-4 flex w-[300px] items-center">
+    <TodoSearchInput value={search} onChange={handleSearchChange} />
+    <FilterSelect value={filter} onChange={handleFilterChange} />
+  </div>
+)
