@@ -79,8 +79,8 @@ const HomePage = () => {
   }
 
   const handleEndEdit = (id: string) => {
-    setLoadingFlags((flags) => ({ ...flags, [id]: true }))
     if (editText.trim() !== "" && isValidLength(editText) && editText !== originalText) {
+      setLoadingFlags((flags) => ({ ...flags, [id]: true }))
       updateTitleMutation
         .mutateAsync({ id, title: editText })
         .catch((error) => {
