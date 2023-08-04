@@ -1,6 +1,5 @@
+import Image from "next/image"
 import type { ChangeEvent } from "react"
-
-import { SearchIcon } from "./icons/SearchIcon"
 
 type Props = {
   value: string
@@ -11,7 +10,7 @@ export const TodoSearchInput = ({ value, onChange }: Props) => {
   return (
     <div className="relative">
       <div className="absolute left-3 top-1/2 -translate-y-1/2">
-        <SearchIcon />
+        <Image src="/search.svg" alt="search" width={24} height={24} />
       </div>
       <input
         type="text"
