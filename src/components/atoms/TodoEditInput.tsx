@@ -7,16 +7,14 @@ type Props = {
   onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void
 }
 
-export const TodoEditInput = ({ value, onChange, onBlur, onKeyDown }: Props) => {
-  return (
-    <input
-      type="text"
-      className="mx-4 w-[182px] p-1"
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      onKeyDown={onKeyDown}
-      autoFocus
-    />
-  )
-}
+export const TodoEditInput = ({ value, onChange, onBlur, onKeyDown }: Props) => (
+  <input
+    type="text"
+    className="mx-4 w-[182px] p-1"
+    value={value}
+    onChange={onChange}
+    onBlur={onBlur}
+    onKeyDown={onKeyDown}
+    autoFocus
+  />
+)

@@ -34,29 +34,27 @@ export const TodoListTemplate = ({
   handleDeleteClick,
   isLoading,
   loadingFlags,
-}: Props) => {
-  return (
-    <div className="flex h-[300px] w-[300px] flex-col items-center gap-2">
-      {isLoading ? (
-        <div className="flex h-full items-center">
-          <Spinner />
-        </div>
-      ) : currentItems?.length > 0 ? (
-        <TodoList
-          todos={currentItems}
-          editingTodoId={editingTodoId}
-          editText={editText}
-          handleCheckboxClick={handleCheckboxClick}
-          handleStartEdit={handleStartEdit}
-          handleEditChange={handleEditChange}
-          handleEndEdit={handleEndEdit}
-          handleKeyDown={handleKeyDown}
-          handleDeleteClick={handleDeleteClick}
-          loadingFlags={loadingFlags}
-        />
-      ) : (
-        <p className="text-center text-lg text-gray-500">No todos found.</p>
-      )}
-    </div>
-  )
-}
+}: Props) => (
+  <div className="flex h-[300px] w-[300px] flex-col items-center gap-2">
+    {isLoading ? (
+      <div className="flex h-full items-center">
+        <Spinner />
+      </div>
+    ) : currentItems?.length > 0 ? (
+      <TodoList
+        todos={currentItems}
+        editingTodoId={editingTodoId}
+        editText={editText}
+        handleCheckboxClick={handleCheckboxClick}
+        handleStartEdit={handleStartEdit}
+        handleEditChange={handleEditChange}
+        handleEndEdit={handleEndEdit}
+        handleKeyDown={handleKeyDown}
+        handleDeleteClick={handleDeleteClick}
+        loadingFlags={loadingFlags}
+      />
+    ) : (
+      <p className="text-center text-lg text-gray-500">No todos found.</p>
+    )}
+  </div>
+)
