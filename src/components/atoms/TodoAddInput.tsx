@@ -1,44 +1,18 @@
-import type { FormEvent } from "react"
-import { useState } from "react"
-
-import { useMutateTodo } from "@/hooks/useMutateTodo"
+import type { Dispatch, FormEvent, SetStateAction } from "react"
 
 import { Spinner } from "./Spinner"
 
-export const TodoAddInput = () => {
-  const [title, setTitle] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const { createTodoMutation } = useMutateTodo()
+type Props = {
+  title: string
+  setTitle: Dispatch<SetStateAction<string>>
+  handleCreateTodo: (event: FormEvent<HTMLFormElement>) => void
+  isPosting: boolean
+}
 
-  const isValidLength = (title: string) => {
-    const maxLength = 10
-    return title.length <= maxLength
-  }
-
-  const handleCreateTodo = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    if (title.trim() === "") {
-      return
-    }
-    if (!isValidLength(title)) {
-      alert("10文字以下で入力してください。")
-      return
-    }
-    setIsLoading(true)
-    createTodoMutation
-      .mutateAsync({ title })
-      .then(() => {
-        setTitle("")
-      })
-      .catch((error) => {
-        console.error("An error occurred: ", error)
-      })
-      .finally(() => setIsLoading(false))
-  }
-
+export const TodoAddInput = ({ title, setTitle, handleCreateTodo, isPosting }: Props) => {
   return (
     <>
-      {isLoading ? (
+      {isPosting ? (
         <Spinner height="h-4" width="w-4" />
       ) : (
         <form onSubmit={handleCreateTodo}>

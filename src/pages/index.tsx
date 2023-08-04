@@ -1,4 +1,4 @@
-import type { ChangeEvent, KeyboardEvent, MouseEvent } from "react"
+import type { ChangeEvent, FormEvent, KeyboardEvent, MouseEvent } from "react"
 import { useState } from "react"
 
 import { TodoAddInput } from "@/components/atoms/TodoAddInput"
@@ -9,6 +9,8 @@ import { useMutateTodo } from "@/hooks/useMutateTodo"
 import { api } from "@/utils/api"
 
 const HomePage = () => {
+  const [title, setTitle] = useState("")
+  const [isPosting, setIsPosting] = useState(false)
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null)
   const [editText, setEditText] = useState("")
   const [originalText, setOriginalText] = useState("")
@@ -19,7 +21,29 @@ const HomePage = () => {
   const itemsPerPage = 5
 
   const { data, isLoading } = api.todo.fetch.useQuery()
-  const { updateTitleMutation, updateIsCompletedMutation, deleteTodoMutation } = useMutateTodo()
+  const { createTodoMutation, updateTitleMutation, updateIsCompletedMutation, deleteTodoMutation } =
+    useMutateTodo()
+
+  const handleCreateTodo = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (title.trim() === "") {
+      return
+    }
+    if (!isValidLength(title)) {
+      alert("10文字以下で入力してください。")
+      return
+    }
+    setIsPosting(true)
+    createTodoMutation
+      .mutateAsync({ title })
+      .then(() => {
+        setTitle("")
+      })
+      .catch((error) => {
+        console.error("An error occurred: ", error)
+      })
+      .finally(() => setIsPosting(false))
+  }
 
   const handleCheckboxClick = (
     event: ChangeEvent<HTMLInputElement>,
@@ -122,7 +146,12 @@ const HomePage = () => {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-      <TodoAddInput />
+      <TodoAddInput
+        title={title}
+        setTitle={setTitle}
+        handleCreateTodo={handleCreateTodo}
+        isPosting={isPosting}
+      />
       <SearchAndFilterBar
         search={search}
         filter={filter}
