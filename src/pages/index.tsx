@@ -81,16 +81,20 @@ const HomePage = () => {
   const handleEndEdit = (id: string) => {
     setLoadingFlags((flags) => ({ ...flags, [id]: true }))
     if (editText.trim() !== "" && isValidLength(editText) && editText !== originalText) {
-      updateTitleMutation.mutateAsync({ id, title: editText }).catch((error) => {
-        console.error("An error occurred during mutation: ", error)
-      })
+      updateTitleMutation
+        .mutateAsync({ id, title: editText })
+        .catch((error) => {
+          console.error("An error occurred during mutation: ", error)
+        })
+        .finally(() => {
+          setLoadingFlags((flags) => ({ ...flags, [id]: false }))
+        })
     } else if (!isValidLength(editText)) {
       alert("10文字以下で入力してください。")
     }
     setEditingTodoId(null)
     setEditText("")
     setOriginalText("")
-    setLoadingFlags((flags) => ({ ...flags, [id]: false }))
   }
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>, id: string) => {
@@ -105,9 +109,15 @@ const HomePage = () => {
   const handleDeleteClick = (event: MouseEvent<HTMLButtonElement>, id: string) => {
     event.stopPropagation()
     if (confirm("削除してもよろしいでしょうか？")) {
-      deleteTodoMutation.mutateAsync({ id }).catch((error) => {
-        console.error("An error occurred during deletion: ", error)
-      })
+      setLoadingFlags((flags) => ({ ...flags, [id]: true }))
+      deleteTodoMutation
+        .mutateAsync({ id })
+        .catch((error) => {
+          console.error("An error occurred during deletion: ", error)
+        })
+        .finally(() => {
+          setLoadingFlags((flags) => ({ ...flags, [id]: false }))
+        })
       if (currentItems?.length === 1) {
         if (currentPage > 1) {
           setCurrentPage((oldPage) => oldPage - 1)
