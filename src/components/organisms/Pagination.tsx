@@ -1,5 +1,5 @@
-import { ArrowLeft } from "../atoms/icons/ArrowLeft"
-import { ArrowRight } from "../atoms/icons/ArrowRight"
+import Image from "next/image"
+
 import { PaginationButton } from "../atoms/PaginationButton"
 
 type Props = {
@@ -35,14 +35,14 @@ export const Pagination = ({
             isDisabled={currentPage === 1}
             onClick={() => currentPage > 1 && setCurrentPage((oldPage) => Math.max(oldPage - 1, 1))}
           >
-            <ArrowLeft />
+            <Image src="/arrow-left.svg" alt="arrow left" width={24} height={24} />
           </PaginationButton>
 
           <PaginationButton
             isDisabled={currentPage === numPages}
             onClick={() => setCurrentPage((oldPage) => Math.min(oldPage + 1, numPages))}
           >
-            <ArrowRight />
+            <Image src="/arrow-right.svg" alt="arrow right" width={24} height={24} />
           </PaginationButton>
         </div>
       )}

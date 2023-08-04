@@ -1,6 +1,5 @@
+import Image from "next/image"
 import type { MouseEventHandler } from "react"
-
-import { DeleteIcon } from "./icons/DeleteIcon"
 
 type Props = {
   onClick: MouseEventHandler<HTMLButtonElement>
@@ -9,7 +8,7 @@ type Props = {
 export const TodoDeleteButton = ({ onClick }: Props) => {
   return (
     <button className="rounded bg-red-500 p-1 text-white hover:bg-red-700" onClick={onClick}>
-      <DeleteIcon />
+      <Image src="/delete.svg" alt="delete" width={24} height={24} />
     </button>
   )
 }
