@@ -1,5 +1,6 @@
 import type { ChangeEvent, FormEvent, KeyboardEvent, MouseEvent } from "react"
 import { useState } from "react"
+import { toast } from "react-hot-toast"
 
 import { Spinner } from "@/components/atoms/Spinner"
 import { TodoAddInput } from "@/components/atoms/TodoAddInput"
@@ -8,6 +9,7 @@ import { SearchAndFilterBar } from "@/components/organisms/SearchAndFilterBar"
 import { TodoListTemplate } from "@/components/templates/TodoListTemplate"
 import { useMutateTodo } from "@/hooks/useMutateTodo"
 import { api } from "@/utils/api"
+import { isNotEmpty, isValidLength } from "@/utils/validation"
 
 const HomePage = () => {
   const [title, setTitle] = useState("")
@@ -27,11 +29,11 @@ const HomePage = () => {
 
   const handleCreateTodo = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (title.trim() === "") {
+    if (!isNotEmpty(title)) {
       return
     }
     if (!isValidLength(title)) {
-      alert("10文字以下で入力してください。")
+      toast.error("10文字以下で入力してください。")
       return
     }
     setIsPosting(true)
@@ -73,13 +75,8 @@ const HomePage = () => {
     setEditText(event.target.value)
   }
 
-  const isValidLength = (title: string) => {
-    const maxLength = 10
-    return title.length <= maxLength
-  }
-
   const handleEndEdit = (id: string) => {
-    if (editText.trim() !== "" && isValidLength(editText) && editText !== originalText) {
+    if (isNotEmpty(editText) && isValidLength(editText) && editText !== originalText) {
       setLoadingFlags((flags) => ({ ...flags, [id]: true }))
       updateTitleMutation
         .mutateAsync({ id, title: editText })
@@ -90,7 +87,7 @@ const HomePage = () => {
           setLoadingFlags((flags) => ({ ...flags, [id]: false }))
         })
     } else if (!isValidLength(editText)) {
-      alert("10文字以下で入力してください。")
+      toast.error("10文字以下で入力してください。")
     }
     setEditingTodoId(null)
     setEditText("")
